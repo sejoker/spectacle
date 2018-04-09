@@ -39,8 +39,7 @@ require('normalize.css');
 
 const images = {
   city: require('../assets/city.jpg'),
-  puppeteer: require('../assets/puppeteer.png'),
-  libraries: require('../assets/libraries.png'),
+  kat: require('../assets/kat.png'),
   logo: require('../assets/formidable-logo.svg'),
   markdown: require('../assets/markdown.png')
 };
@@ -83,14 +82,23 @@ export default class Presentation extends Component {
             with Puppeteer
           </Heading>
           <Heading size={1} fit caps textColor="black">
-            Yevgen Safronov, Frontend Engineer @Cloudflare
+            Where You Can Write Your Decks In JSX
           </Heading>
+          <Link href="https://github.com/FormidableLabs/spectacle">
+            <Text bold caps textColor="tertiary">
+              View on Github
+            </Text>
+          </Link>
+          <Text textSize="1.5em" margin="20px 0px 0px" bold>
+            Hit Your Right Arrow To Begin!
+          </Text>
         </Slide>
         <Slide
           onActive={slideIndex => {
             console.info(`Viewing slide index: ${slideIndex}.`); // eslint-disable-line no-console
           }}
           id="wait-what"
+          goTo={4}
           transition={[
             'fade',
             (transitioning, forward) => {
@@ -100,35 +108,18 @@ export default class Presentation extends Component {
                   translate3d(0%, ${transitioning ? 100 : 0}%, 0)
                   rotate(${transitioning ? angle : 0}deg)
                 `,
-                backgroundColor: transitioning ? '#26afff' : 'white'
+                backgroundColor: transitioning ? '#26afff' : '#000'
               };
             }
           ]}
-          bgColor="white"
+          bgColor="black"
           notes="You can even put notes on your slide. How awesome is that?"
         >
-          <Image
-            src={images.puppeteer.replace('/', '')}
-            margin="0px auto 40px"
-          />
-          <Heading size={2} fit textColor="primary" textFont="primary">
-            Node library for headless Chrome
+          <Image src={images.kat.replace('/', '')} margin="0px auto 40px" />
+          <Heading size={2} caps fit textColor="primary" textFont="primary">
+            Wait what?
           </Heading>
         </Slide>
-        <Slide
-          bgColor="white"
-          transitionIn={['zoom', 'fade']}
-          transitionOut={['slide', 'fade']}
-        >
-          <Image
-            src={images.libraries.replace('/', '')}
-            margin="0px auto 40px"
-          />
-          <Heading size={2} fit textColor="primary" textFont="primary">
-            Existing solutions for test automation
-          </Heading>
-        </Slide>
-        {/*
         <Slide
           transitionIn={['zoom', 'fade']}
           transitionOut={['slide', 'fade']}
@@ -142,11 +133,9 @@ export default class Presentation extends Component {
             overflow="overflow"
           />
         </Slide>
-        
         <Slide goTo={3}>
           <ComponentPlayground theme="dark" />
-        </Slide>{' '}
-        */}
+        </Slide>
         <Slide
           transition={['slide']}
           bgImage={images.city.replace('/', '')}
