@@ -41,6 +41,8 @@ require('normalize.css');
 const images = {
   city: require('../assets/city.jpg'),
   puppeteer: require('../assets/puppeteer.png'),
+  select_plan: require('../assets/select_plan.png'),
+  dns_refactor: require('../assets/dns_refactor.png'),
   libraries: require('../assets/libraries.png'),
   network: require('../assets/network.png'),
   cloudflare: require('../assets/cloudflare.svg'),
@@ -102,10 +104,6 @@ export default class Presentation extends Component {
           </Heading>
         </Slide>
         <Slide
-          onActive={slideIndex => {
-            console.info(`Viewing slide index: ${slideIndex}.`); // eslint-disable-line no-console
-          }}
-          id="wait-what"
           transition={[
             'fade',
             (transitioning, forward) => {
@@ -120,7 +118,6 @@ export default class Presentation extends Component {
             }
           ]}
           bgColor="white"
-          notes="You can even put notes on your slide. How awesome is that?"
         >
           <Image
             src={images.puppeteer.replace('/', '')}
@@ -162,7 +159,7 @@ export default class Presentation extends Component {
           <Layout>
             <Fill>
               <Heading caps fit size={1} textColor="primary">
-                Build a better Internet
+                To help build a better Internet
               </Heading>
             </Fill>
             <Fill>
@@ -186,6 +183,65 @@ export default class Presentation extends Component {
               <Image src={images.network.replace('/', '')} />
             </Fill>
           </Layout>
+        </Slide>
+        <Slide
+          transition={[
+            'fade',
+            (transitioning, forward) => {
+              const angle = forward ? -180 : 180;
+              return {
+                transform: `
+                  translate3d(0%, ${transitioning ? 100 : 0}%, 0)
+                  rotate(${transitioning ? angle : 0}deg)
+                `
+              };
+            }
+          ]}
+        >
+          <Heading size={3} fit textColor="white" textFont="primary">
+            Use case: plan subscription bug
+          </Heading>
+          <Image
+            src={images.select_plan.replace('/', '')}
+            width="60%"
+            padding="20px"
+          />
+          <Heading size={4} fit textColor="white" textFont="primary">
+            Made a change to fix an error in Sentry logs
+          </Heading>
+        </Slide>
+        <Slide
+          transition={[
+            'fade',
+            (transitioning, forward) => {
+              const angle = forward ? -180 : 180;
+              return {
+                transform: `
+                  translate3d(0%, ${transitioning ? 100 : 0}%, 0)
+                  rotate(${transitioning ? angle : 0}deg)
+                `,
+                backgroundColor: transitioning ? '#26afff' : 'white'
+              };
+            }
+          ]}
+          bgColor="white"
+        >
+          <Heading size={3} fit textColor="primary" textFont="primary">
+            Use case: DNS table refactoring
+          </Heading>
+          <Image
+            src={images.dns_refactor.replace('/', '')}
+            width="100%"
+            padding="20px"
+          />
+          <Heading size={4} textColor="primary" textFont="primary">
+            Made a refactoring in DNS table
+          </Heading>
+        </Slide>
+        <Slide>
+          <Heading fit size={1} textColor="white">
+            Demo: Onboarding flow
+          </Heading>
         </Slide>
         {/*
         <Slide
