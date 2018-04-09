@@ -8,6 +8,7 @@ import {
   ComponentPlayground,
   Deck,
   Fill,
+  Fit,
   Heading,
   Image,
   Layout,
@@ -41,7 +42,8 @@ const images = {
   city: require('../assets/city.jpg'),
   puppeteer: require('../assets/puppeteer.png'),
   libraries: require('../assets/libraries.png'),
-  logo: require('../assets/formidable-logo.svg'),
+  network: require('../assets/network.png'),
+  cloudflare: require('../assets/cloudflare.svg'),
   markdown: require('../assets/markdown.png')
 };
 
@@ -87,6 +89,19 @@ export default class Presentation extends Component {
           </Heading>
         </Slide>
         <Slide
+          bgColor="white"
+          transitionIn={['zoom', 'fade']}
+          transitionOut={['slide', 'fade']}
+        >
+          <Image
+            src={images.libraries.replace('/', '')}
+            margin="0px auto 40px"
+          />
+          <Heading size={2} fit textColor="primary" textFont="primary">
+            Existing solutions for test automation
+          </Heading>
+        </Slide>
+        <Slide
           onActive={slideIndex => {
             console.info(`Viewing slide index: ${slideIndex}.`); // eslint-disable-line no-console
           }}
@@ -115,18 +130,62 @@ export default class Presentation extends Component {
             Node library for headless Chrome
           </Heading>
         </Slide>
+        <Slide transition={['fade']} bgColor="secondary" textColor="primary">
+          <Layout>
+            <Fill>
+              <Image src={images.puppeteer.replace('/', '')} />
+            </Fill>
+            <Fill>
+              <List>
+                <Appear>
+                  <ListItem>async/await, ES6 features</ListItem>
+                </Appear>
+                <Appear>
+                  <ListItem>Bundles with latest Chromium</ListItem>
+                </Appear>
+                <Appear>
+                  <ListItem>Node library on top of DevTools protocol </ListItem>
+                </Appear>
+                <Appear>
+                  <ListItem>Officially support by DevTools team</ListItem>
+                </Appear>
+              </List>
+            </Fill>
+          </Layout>
+        </Slide>
         <Slide
-          bgColor="white"
-          transitionIn={['zoom', 'fade']}
-          transitionOut={['slide', 'fade']}
+          transition={['spin', 'zoom']}
+          bgColor="tertiary"
+          controlColor="primary"
+          progressColor="primary"
         >
-          <Image
-            src={images.libraries.replace('/', '')}
-            margin="0px auto 40px"
-          />
-          <Heading size={2} fit textColor="primary" textFont="primary">
-            Existing solutions for test automation
-          </Heading>
+          <Layout>
+            <Fill>
+              <Heading caps fit size={1} textColor="primary">
+                Build a better Internet
+              </Heading>
+            </Fill>
+            <Fill>
+              <Image width="30%" src={images.cloudflare} />
+            </Fill>
+          </Layout>
+          <Layout>
+            <Fill>
+              <Markdown>
+                {`
+
+  
+  * Performance
+  * Security
+  * Reliability
+  * Edge computing
+            `}
+              </Markdown>
+            </Fill>
+            <Fill>
+              <Image src={images.network.replace('/', '')} />
+            </Fill>
+          </Layout>
         </Slide>
         {/*
         <Slide
