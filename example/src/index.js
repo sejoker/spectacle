@@ -58,7 +58,8 @@ preloader(images);
 const theme = createTheme({
   primary: 'black',
   secondary: '#faf8f5',
-  gold: '#FF7900'
+  gold: '#FF7900',
+  blue: '#728fcb'
 });
 
 export default class Presentation extends Component {
@@ -185,6 +186,23 @@ export default class Presentation extends Component {
             { loc: [7, 8] }
           ]}
         />
+        <Slide
+          transitionIn={['zoom', 'fade']}
+          transitionOut={['slide', 'fade']}
+          bgColor="secondary"
+          notes="<ul><li>talk about that</li><li>and that</li></ul>"
+        >
+          <Heading size={3} textColor="blue">
+            Launch options
+          </Heading>
+          <CodePane
+            lang="jsx"
+            source={require('raw-loader!../assets/launch.example')}
+            margin="20px auto"
+            fontSize="30px"
+            overflow="overflow"
+          />
+        </Slide>
         <Slide>
           <Heading fit size={1} textColor="gold">
             E2E testing at Cloudflare
@@ -391,18 +409,6 @@ export default class Presentation extends Component {
         </Slide>
         <Slide>
           <Heading size={1} textColor="gold">
-            What worked well
-          </Heading>
-          <Markdown style={{ color: 'white' }}>
-            {`
-  * Easy to add a new test 
-  * Easy to run tests locally
-  * Continuous integration
-            `}
-          </Markdown>
-        </Slide>
-        <Slide>
-          <Heading size={2} textColor="gold">
             What worked well
           </Heading>
           <Markdown style={{ color: 'white' }}>

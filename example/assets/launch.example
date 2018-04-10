@@ -1,0 +1,9 @@
+puppeteer.launch({
+    headless: false, // 'headful' mode
+    devtools: true, // auto-open devtools
+    slowMo: 250, // slow everything by 250ms
+    executablePath: '/path/to/chrome',
+    args: [
+      `--disable-extensions-except='/path/to/extension'`
+    ]
+  }).then(...);
