@@ -42,6 +42,8 @@ require('normalize.css');
 
 const images = {
   dashboard: require('../assets/dashboard.png'),
+  fela: require('../assets/fela.png'),
+  twitter: require('../assets/twitter.png'),
   puppeteer: require('../assets/puppeteer.png'),
   select_plan: require('../assets/select_plan.png'),
   dns_refactor: require('../assets/dns_refactor.png'),
@@ -323,6 +325,23 @@ export default class Presentation extends Component {
             </Appear>
           </List>
         </Slide>
+        <Slide>
+          <Heading fit size={1} textColor="gold">
+            Problem: How to target DOM elements
+          </Heading>
+          <Markdown style={{ color: 'white' }}>
+            {`
+  * Can’t rely on  CSS class names 
+  * Should be framework agnostic
+  * Using custom data-test-id attribute
+            `}
+          </Markdown>
+          <Image
+            src={images.fela.replace('/', '')}
+            width="100%"
+            padding="20px"
+          />
+        </Slide>
         <CodeSlide
           bgColor="secondary"
           transition={[]}
@@ -370,6 +389,74 @@ export default class Presentation extends Component {
             Demo: Onboarding flow
           </Heading>
         </Slide>
+        <Slide>
+          <Heading size={1} textColor="gold">
+            What worked well
+          </Heading>
+          <Markdown style={{ color: 'white' }}>
+            {`
+  * Easy to add a new test 
+  * Easy to run tests locally
+  * Continuous integration
+            `}
+          </Markdown>
+        </Slide>
+        <Slide>
+          <Heading size={2} textColor="gold">
+            What worked well
+          </Heading>
+          <Markdown style={{ color: 'white' }}>
+            {`
+  * Easy to add a new test 
+  * Easy to run tests locally
+  * Continuous integration
+            `}
+          </Markdown>
+        </Slide>
+        <Slide>
+          <Heading size={2} textColor="gold">
+            What didn’t go well
+          </Heading>
+          <Markdown style={{ color: 'white' }}>
+            {`
+  * API rate limits 
+  * Tests could be false positive
+  * Hard to isolate failures
+            `}
+          </Markdown>
+        </Slide>
+        <Slide>
+          <Heading size={2} textColor="gold">
+            What’s next
+          </Heading>
+          <Markdown style={{ color: 'white' }}>
+            {`
+  * Improve reporting in case of test failures
+  * Visual diffing
+  * Capture timeline trace
+            `}
+          </Markdown>
+        </Slide>
+        <Slide>
+          <Heading size={1} textColor="gold">
+            Q&A
+          </Heading>
+          <Layout style={{ margin: '40px' }}>
+            <Fill>
+              <Image
+                src={images.twitter.replace('/', '')}
+                width="20%"
+                padding="10px"
+                style={{ float: 'right' }}
+              />
+            </Fill>
+            <Fill>
+              <Heading size={3} textColor="gold" style={{ float: 'left' }}>
+                @sejoker
+              </Heading>
+            </Fill>
+          </Layout>
+        </Slide>
         {/*
         <Slide
           transitionIn={['zoom', 'fade']}
@@ -410,7 +497,7 @@ export default class Presentation extends Component {
             </Heading>
           </Appear>
         </Slide>
-        */}
+        
         <Slide>
           <Heading size={2} textColor="secondary" margin="0.25em">
             Mix it up!
@@ -632,6 +719,7 @@ const myCode = (is, great) => 'for' + 'sharing';
             <Image width="100%" src={images.logo} />
           </Link>
         </Slide>
+        */}
       </Deck>
     );
   }
