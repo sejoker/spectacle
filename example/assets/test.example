@@ -1,0 +1,187 @@
+const faker = require('faker');
+const AppHarness = require('./common/AppHarness');
+const { PASSWORD } = require('./common/fixtures');
+
+const timeout = 150000;
+jest.setTimeout(timeout);
+
+const createNewUser = async app => {
+  await app.goto('/sign-up');
+
+  // Fill in the new user form with random (hopefully enough) info
+  const fakeEmail = faker.fake(
+    'e2e-{{name.firstName}}-{{name.lastName}}-{{random.number}}@cloudflare.com'
+  );
+
+  const newUser = {
+    email: fakeEmail,
+    pass: PASSWORD
+  };
+
+  await app.page.waitForSelector('[name="email"]');
+  await app.page.type('[name="email"]', newUser.email);
+  await app.page.type('[name="password"]', newUser.pass);
+  const signupButton = await app.waitForComponent('signup-button');
+  await signupButton.click();
+
+  return newUser;
+};
+
+const setupZone = async (app, zoneName, type) => {
+  // Complete all steps of zone onboarding
+  await addSiteStep(app, zoneName);
+  await queryDnsStep(app);
+  await selectPlan(app, type);
+  await verifyDns(app, type);
+  await updateNameservers(app, type);
+
+  // Verify we've hit the overview page
+  await app.waitForDummy('overview-page');
+};
+
+// Complete the Add Site form. Assumes it's already been navigated to
+const addSiteStep = async (app, name) => {
+  await app.waitForDummy('add-site-page');
+  await app.page.type('[name="website"]', name);
+  const addSiteButton = await app.waitForComponent('add-site-button');
+  await addSiteButton.click();
+};
+
+// Complete the Query DNS step by clicking continue
+const queryDnsStep = async app => {
+  await app.waitForDummy('query-dns-page');
+  const queryDnsButton = await app.waitForComponent('query-dns-button');
+  await queryDnsButton.click();
+};
+
+// Complete the Select a Plan step by selecting the free plan
+const selectPlan = async (app, type) => {
+  await app.waitForDummy('select-plan-page');
+  const planCard = await app.waitForComponent(`${type}-plan-card`);
+  await planCard.click();
+  const confirmButton = await app.waitForComponent(
+    `confirm-plan-button-${type}`
+  );
+  await confirmButton.click();
+
+  // Pay if we've gotta pay
+  if (type === 'pro' || type === 'biz') {
+    await fillInCreditCardInfo(app);
+  }
+};
+
+const fillInCreditCardInfo = async app => {
+  // Selec the "Pay with card" option
+  const payWithCardButton = await app.waitForComponent('pay-with-card-button');
+  await payWithCardButton.click();
+
+  // Wait for the card info form
+  const purchaseButton = await app.page.waitForSelector(
+    '.modal-actions button:last-child'
+  );
+
+  // Fill in the details with fake card info
+  await app.page.type('[name="name"]', faker.name.findName());
+  await app.page.type('[name="card_number"]', '4111111111111111');
+  await app.page.type('[name="card_cvv"]', '111');
+  await app.page.type('select[name="card_expiry_year"]', '2019');
+  await app.page.type('select[name="country"]', 'United States');
+  await app.page.type('[name="telephone"]', faker.phone.phoneNumberFormat(1));
+  await app.page.type('[name="address"]', faker.address.streetAddress());
+  await app.page.type('[name="city"]', faker.address.city());
+  await app.page.type('[name="state"]', 'CA');
+  await app.page.type('[name="zipcode"]', '91111');
+  await app.page.type('[name="company"]', 'Testing Things Inc.');
+
+  await purchaseButton.click();
+};
+
+// Complete the Verify DNS step by clicking continue
+const verifyDns = async app => {
+  await app.waitForDummy('verify-dns-page');
+  const verifyDnsButton = await app.waitForComponent('verify-dns-button');
+  await verifyDnsButton.click();
+};
+
+// Complete the Update Nameservers step by clicking continue
+const updateNameservers = async app => {
+  await app.waitForDummy('update-ns-page');
+  const updateNsButton = await app.waitForComponent('update-ns-button');
+  await updateNsButton.click();
+};
+
+const clickNextStep = async app => {
+  const nextButton = await app.page.waitForSelector(
+    '[data-action="next:step"]'
+  );
+  await nextButton.click();
+};
+
+describe(
+  'Onboarding',
+  () => {
+    let page;
+    let app;
+
+    beforeAll(async () => {
+      page = await global.__BROWSER__.newPage();
+      app = new AppHarness(page);
+      await app.resizeToDesktop();
+    }, timeout);
+
+    afterEach(async () => {
+      await app.logout();
+    });
+
+    afterAll(async () => {
+      await page.close();
+    });
+
+    test('should load signup page', async () => {
+      await app.goto('/sign-up');
+
+      await page.waitForSelector('[name="email"]');
+      let text = await page.evaluate(() => document.body.textContent);
+
+      expect(text).toContain('Create Account');
+    });
+
+    test('should be able to sign up new free user', async () => {
+      await createNewUser(app);
+      await setupZone(app, 'testing.net', 'free');
+
+      // Test being able to upgrade to pro
+      const changePlanButton = await app.waitForComponent('change-plan-button');
+      await changePlanButton.click();
+
+      // Select the pro option
+      const proButton = await app.waitForComponent('Pro Website');
+      await proButton.click();
+
+      // Click the next button
+      await clickNextStep(app);
+
+      // Click the next button again on the next step
+      await clickNextStep(app);
+
+      // Fill in the credit card info
+      await fillInCreditCardInfo(app);
+
+      // See if we've succeeded
+      const successSelector =
+        '[aria-labelledby="Success! Welcome to the Pro Website plan."]';
+      await app.page.waitForSelector(successSelector);
+    });
+
+    test('should be able to sign up new pro user', async () => {
+      await createNewUser(app);
+      await setupZone(app, 'testing.net', 'pro');
+    });
+
+    test('should be able to sign up new business user', async () => {
+      await createNewUser(app);
+      await setupZone(app, 'testing.net', 'biz');
+    });
+  },
+  timeout
+);

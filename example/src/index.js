@@ -323,7 +323,48 @@ export default class Presentation extends Component {
             </Appear>
           </List>
         </Slide>
-
+        <CodeSlide
+          bgColor="secondary"
+          transition={[]}
+          lang="js"
+          code={require('raw-loader!../assets/appHelper.example')}
+          ranges={[
+            { loc: [0, 0], title: 'App Harness' },
+            { loc: [7, 11], note: 'testing on desktop' },
+            { loc: [12, 16], note: 'testing on mobile' },
+            { loc: [17, 22], note: 'navigation through the app' },
+            { loc: [48, 52], note: 'waiting for hidden span with id' },
+            { loc: [53, 57], note: 'waiting for visible component with id' },
+            { loc: [23, 24] },
+            { loc: [25, 26] },
+            { loc: [27, 28] },
+            { loc: [28, 29] },
+            { loc: [29, 30] },
+            { loc: [30, 31] },
+            { loc: [58, 59] },
+            { loc: [61, 64], note: 'navigate to caching page' }
+          ]}
+        />
+        <CodeSlide
+          bgColor="secondary"
+          transition={[]}
+          lang="js"
+          code={require('raw-loader!../assets/test.example')}
+          ranges={[
+            { loc: [0, 0], title: 'Test: sign up new pro user' },
+            { loc: [175, 179] },
+            { loc: [176, 177] },
+            { loc: [7, 8] },
+            { loc: [8, 9] },
+            { loc: [10, 14] },
+            { loc: [15, 19] },
+            { loc: [20, 25] },
+            { loc: [177, 178] },
+            { loc: [29, 40] },
+            { loc: [41, 48] },
+            { loc: [49, 55] }
+          ]}
+        />
         <Slide>
           <Heading fit size={1} textColor="gold">
             Demo: Onboarding flow

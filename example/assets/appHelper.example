@@ -1,0 +1,76 @@
+const { logger } = require('./logger');
+
+module.exports = class App {
+  constructor(page) {
+    this.page = page;
+  }
+
+  async resizeToDesktop() {
+    logger.info('Resizing to desktop');
+    await this.page.setViewport({ width: 1270, height: 800 });
+  }
+
+  async resizeToMobile() {
+    logger.info('Resizing to mobile');
+    await this.page.setViewport({ width: 400, height: 700, isMobile: true });
+  }
+
+  async goto(pathname) {
+    const url = `${process.env.ENV_HOST}/a${pathname}`;
+    logger.info(`Going to page: ${url}`);
+    await this.page.goto(url);
+  }
+
+  async loginUser(user) {
+    logger.info(`Logging in as user: ${user.email}`);
+    await this.goto('/login');
+
+    const loginButton = await this.waitForComponent('login-button');
+    await this.page.type('[name="email"]', user.email);
+    await this.page.type('[name="password"]', user.pass);
+    await loginButton.click();
+  }
+
+  async logout() {
+    logger.info('Logging out');
+    await this.goto('/logout');
+  }
+
+  async clickZoneSelector() {
+    logger.info('Clicking Zone Selector');
+    await this.waitForZoneSelector();
+    await this.page.click('button[data-test-id="zone-selector-dropdown"]');
+  }
+
+  async waitForZoneSelector() {
+    return this.waitForDummy('zone-selector');
+  }
+
+  async waitForDummy(id, options = {}) {
+    logger.debug(`Waiting for dummy "${id}"`);
+    return this.page.waitForSelector(`[data-test-dummy="${id}"]`, options);
+  }
+
+  async waitForComponent(id, options = {}) {
+    logger.debug(`Waiting for component "${id}"`);
+    return this.page.waitForSelector(`[data-test-id="${id}"]`, options);
+  }
+
+  async navigateToPage(name) {
+    logger.info(`Navigation to app page "${name}"`);
+    switch (name) {
+      case 'Caching':
+        await this.page.click('a[title="Caching"]');
+        await this.waitForDummy('caching-page');
+        break;
+      case 'DNS':
+        await this.page.click('a[title="DNS"]');
+        await this.waitForDummy('dns-page');
+        break;
+      // remaining pages...
+
+      default:
+        return false;
+    }
+  }
+};
