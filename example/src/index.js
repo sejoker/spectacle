@@ -30,6 +30,8 @@ import {
   GoToAction
 } from '../../src';
 
+import CodeSlide from 'spectacle-code-slide';
+
 import preloader from '../../src/utils/preloader';
 
 import createTheme from '../../src/themes/default';
@@ -52,7 +54,8 @@ const images = {
 preloader(images);
 
 const theme = createTheme({
-  primary: '#286EA4'
+  primary: '#286EA4',
+  secondary: '#faf8f5'
 });
 
 export default class Presentation extends Component {
@@ -150,6 +153,35 @@ export default class Presentation extends Component {
             </Fill>
           </Layout>
         </Slide>
+        <Slide
+          transitionIn={['zoom', 'fade']}
+          transitionOut={['slide', 'fade']}
+          bgColor="secondary"
+          notes="<ul><li>talk about that</li><li>and that</li></ul>"
+        >
+          <Image src={images.puppeteer.replace('/', '')} width="10%" />
+          <CodePane
+            lang="jsx"
+            source={require('raw-loader!../assets/deck.example')}
+            margin="20px auto"
+            fontSize="30px"
+            overflow="overflow"
+          />
+        </Slide>
+        <CodeSlide
+          bgColor="secondary"
+          transition={[]}
+          lang="js"
+          code={require('raw-loader!../assets/screenshot.example')}
+          ranges={[
+            { loc: [0, 0], title: 'Take a screenshot' },
+            { loc: [3, 4] },
+            { loc: [4, 5] },
+            { loc: [5, 6] },
+            { loc: [6, 7] },
+            { loc: [7, 8] }
+          ]}
+        />
         <Slide
           transition={['spin', 'zoom']}
           bgColor="tertiary"
