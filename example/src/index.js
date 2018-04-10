@@ -48,7 +48,7 @@ const images = {
   libraries: require('../assets/libraries.png'),
   network: require('../assets/network.png'),
   cloudflare: require('../assets/cloudflare.svg'),
-  markdown: require('../assets/markdown.png')
+  testing_pyramid: require('../assets/testing_pyramid.png')
 };
 
 preloader(images);
@@ -85,7 +85,7 @@ export default class Presentation extends Component {
       >
         <Slide transition={['zoom']} bgColor="primary">
           <Heading size={1} fit caps lineHeight={1} textColor="gold">
-            Test automation
+            End to End Testing
           </Heading>
           <Heading size={1} fit caps textColor="gold">
             with Puppeteer
@@ -183,6 +183,11 @@ export default class Presentation extends Component {
             { loc: [7, 8] }
           ]}
         />
+        <Slide>
+          <Heading fit size={1} textColor="gold">
+            E2E testing at Cloudflare
+          </Heading>
+        </Slide>
         <Slide
           transition={['spin', 'zoom']}
           bgColor="tertiary"
@@ -287,6 +292,16 @@ export default class Presentation extends Component {
           <Heading size={4} textColor="white" textFont="primary">
             Made a refactoring in DNS table
           </Heading>
+        </Slide>
+        <Slide>
+          <Heading size={3} textColor="gold" textFont="primary">
+            Caution: Testing pyramid
+          </Heading>
+          <Image
+            src={images.testing_pyramid.replace('/', '')}
+            width="60%"
+            padding="20px"
+          />
         </Slide>
         <Slide transition={['fade']} bgColor="primary" textColor="white">
           <Heading size={3} textColor="gold" textFont="primary">
@@ -457,7 +472,6 @@ export default class Presentation extends Component {
           </Heading>
           <Markdown>
             {`
-  ![Markdown Logo](${images.markdown.replace('/', '')})
 
   You can write inline images, [Markdown Links](http://commonmark.org), paragraph text and most other markdown syntax
   * Lists too!
