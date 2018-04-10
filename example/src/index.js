@@ -39,7 +39,7 @@ import Interactive from '../assets/interactive';
 require('normalize.css');
 
 const images = {
-  city: require('../assets/city.jpg'),
+  dashboard: require('../assets/dashboard.png'),
   puppeteer: require('../assets/puppeteer.png'),
   select_plan: require('../assets/select_plan.png'),
   dns_refactor: require('../assets/dns_refactor.png'),
@@ -127,7 +127,7 @@ export default class Presentation extends Component {
             Node library for headless Chrome
           </Heading>
         </Slide>
-        <Slide transition={['fade']} bgColor="secondary" textColor="primary">
+        <Slide transition={['fade']} bgColor="primary" textColor="white">
           <Layout>
             <Fill>
               <Image src={images.puppeteer.replace('/', '')} />
@@ -183,6 +183,29 @@ export default class Presentation extends Component {
               <Image src={images.network.replace('/', '')} />
             </Fill>
           </Layout>
+        </Slide>
+        <Slide
+          transition={[
+            'fade',
+            (transitioning, forward) => {
+              const angle = forward ? -180 : 180;
+              return {
+                transform: `
+                  translate3d(0%, ${transitioning ? 100 : 0}%, 0)
+                  rotate(${transitioning ? angle : 0}deg)
+                `,
+                backgroundColor: transitioning ? '#26afff' : 'black'
+              };
+            }
+          ]}
+        >
+          <Image
+            src={images.dashboard.replace('/', '')}
+            margin="0px auto 40px"
+          />
+          <Heading size={2} fit textColor="white" textFont="primary">
+            How UI interacts with Backend services
+          </Heading>
         </Slide>
         <Slide
           transition={[
@@ -261,7 +284,7 @@ export default class Presentation extends Component {
         <Slide goTo={3}>
           <ComponentPlayground theme="dark" />
         </Slide>{' '}
-        */}
+        
         <Slide
           transition={['slide']}
           bgImage={images.city.replace('/', '')}
@@ -283,6 +306,7 @@ export default class Presentation extends Component {
             </Heading>
           </Appear>
         </Slide>
+        */}
         <Slide>
           <Heading size={2} textColor="secondary" margin="0.25em">
             Mix it up!
