@@ -54,8 +54,9 @@ const images = {
 preloader(images);
 
 const theme = createTheme({
-  primary: '#286EA4',
-  secondary: '#faf8f5'
+  primary: 'black',
+  secondary: '#faf8f5',
+  gold: '#FF7900'
 });
 
 export default class Presentation extends Component {
@@ -83,13 +84,13 @@ export default class Presentation extends Component {
         transitionDuration={500}
       >
         <Slide transition={['zoom']} bgColor="primary">
-          <Heading size={1} fit caps lineHeight={1} textColor="black">
+          <Heading size={1} fit caps lineHeight={1} textColor="gold">
             Test automation
           </Heading>
-          <Heading size={1} fit caps>
+          <Heading size={1} fit caps textColor="gold">
             with Puppeteer
           </Heading>
-          <Heading size={1} fit caps textColor="black">
+          <Heading size={1} fit caps textColor="white">
             Yevgen Safronov, Frontend Engineer @Cloudflare
           </Heading>
         </Slide>
@@ -116,7 +117,7 @@ export default class Presentation extends Component {
                   translate3d(0%, ${transitioning ? 100 : 0}%, 0)
                   rotate(${transitioning ? angle : 0}deg)
                 `,
-                backgroundColor: transitioning ? '#26afff' : 'white'
+                backgroundColor: 'white'
               };
             }
           ]}
@@ -130,7 +131,7 @@ export default class Presentation extends Component {
             Node library for headless Chrome
           </Heading>
         </Slide>
-        <Slide transition={['fade']} bgColor="primary" textColor="white">
+        <Slide transition={['fade']} bgColor="white" textColor="black">
           <Layout>
             <Fill>
               <Image src={images.puppeteer.replace('/', '')} />
@@ -200,10 +201,8 @@ export default class Presentation extends Component {
           </Layout>
           <Layout>
             <Fill>
-              <Markdown>
+              <Markdown style={{ color: 'black' }}>
                 {`
-
-  
   * Performance
   * Security
   * Reliability
@@ -231,13 +230,10 @@ export default class Presentation extends Component {
             }
           ]}
         >
-          <Image
-            src={images.dashboard.replace('/', '')}
-            margin="0px auto 40px"
-          />
-          <Heading size={2} fit textColor="white" textFont="primary">
+          <Heading size={2} fit textColor="gold" textFont="primary">
             How UI interacts with Backend services
           </Heading>
+          <Image src={images.dashboard.replace('/', '')} margin="40px" />
         </Slide>
         <Slide
           transition={[
@@ -253,7 +249,7 @@ export default class Presentation extends Component {
             }
           ]}
         >
-          <Heading size={3} fit textColor="white" textFont="primary">
+          <Heading size={3} fit textColor="gold" textFont="primary">
             Use case: plan subscription bug
           </Heading>
           <Image
@@ -274,14 +270,13 @@ export default class Presentation extends Component {
                 transform: `
                   translate3d(0%, ${transitioning ? 100 : 0}%, 0)
                   rotate(${transitioning ? angle : 0}deg)
-                `,
-                backgroundColor: transitioning ? '#26afff' : 'white'
+                `
               };
             }
           ]}
-          bgColor="white"
+          bgColor="black"
         >
-          <Heading size={3} fit textColor="primary" textFont="primary">
+          <Heading size={3} fit textColor="gold" textFont="primary">
             Use case: DNS table refactoring
           </Heading>
           <Image
@@ -289,12 +284,33 @@ export default class Presentation extends Component {
             width="100%"
             padding="20px"
           />
-          <Heading size={4} textColor="primary" textFont="primary">
+          <Heading size={4} textColor="white" textFont="primary">
             Made a refactoring in DNS table
           </Heading>
         </Slide>
+        <Slide transition={['fade']} bgColor="primary" textColor="white">
+          <Heading size={3} textColor="gold" textFont="primary">
+            Problem definition
+          </Heading>
+
+          <List>
+            <Appear>
+              <ListItem>Unit and integration testing is not enough</ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>Manual testing is not scalable</ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>Boost confidence to release often</ListItem>
+            </Appear>
+            <Appear>
+              <ListItem>Easy to write and run e2e tests</ListItem>
+            </Appear>
+          </List>
+        </Slide>
+
         <Slide>
-          <Heading fit size={1} textColor="white">
+          <Heading fit size={1} textColor="gold">
             Demo: Onboarding flow
           </Heading>
         </Slide>
